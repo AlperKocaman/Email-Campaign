@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
@@ -21,5 +20,5 @@ public class Contact {
 	private String emailAddress;
 	private boolean isMailSentToThisContact;
 	private boolean isThisContactClickedTheLink;
-	private Timestamp elapsedTimeUntilClick;
+	private Long elapsedTimeUntilClick;
 }
