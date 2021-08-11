@@ -1,0 +1,87 @@
+package com.picus.email_campaign.service;
+
+import com.picus.email_campaign.dto.EmailDTO;
+import com.picus.email_campaign.dto.SentMailDTO;
+import com.picus.email_campaign.entity.Contact;
+import com.picus.email_campaign.entity.SentMail;
+import com.picus.email_campaign.mapper.SentMailMapper;
+import com.picus.email_campaign.repository.ContactRepository;
+import com.picus.email_campaign.repository.SentMailRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@Slf4j
+public class EmailService {
+
+	@Autowired
+	private SentMailMapper sentMailMapper;
+
+	@Autowired
+	private SentMailRepository sentMailRepository;
+
+	@Autowired
+	private ContactRepository contactRepository;
+
+	@Autowired
+	private JavaMailSender mailSender;
+
+	private String customLinkBody = "<a href=\"http://localhost:3000/click/%s\" target=\"_blank\">Click To See Campaign</a>";
+
+	public List<SentMailDTO> sendEmailToMultipleContacts(EmailDTO emailDTO) {
+		List<SentMailDTO> sentMailDTOList = new ArrayList<>();
+		for(String contactEmailAddress : emailDTO.getContactEmailAddressList()) {
+			sentMailDTOList.add(this.sendEmailToContact(contactEmailAddress, emailDTO.getTopic(), emailDTO.getBody()));
+		}
+		return sentMailDTOList;
+	}
+
+	public SentMailDTO sendEmailToContact(String contactEmailAddress, String topic, String body) {
+		SimpleMailMessage message = new SimpleMailMessage();
+
+		SentMailDTO sentMailDTO = new SentMailDTO();
+		sentMailDTO.setSentEmailAddress(contactEmailAddress);
+		String hashString = UUID.randomUUID().toString();
+		sentMailDTO.setHashString(hashString);
+
+		message.setFrom("alper269707@gmail.com");
+		message.setTo(contactEmailAddress);
+		message.setSubject(topic);
+
+		String customLink = String.format(customLinkBody, hashString);
+		message.setText(body + "\n" + customLink);
+
+		mailSender.send(message);
+
+		sentMailDTO.setSentTime(System.currentTimeMillis());
+		SentMail sentMail = sentMailMapper.toSentMailEntity(sentMailDTO);
+		SentMail sentMailEntity = sentMailRepository.save(sentMail);
+		log.info("Mail sent: {}", sentMailEntity.toString());
+		return sentMailMapper.toSentMailDTO(sentMailEntity);
+	}
+
+	public void handleLinkClick(String id) {
+		Optional<SentMail> sentMail = sentMailRepository.findByHashString(id);
+		if(sentMail.isPresent()) {
+			SentMail sentMailEntity = sentMail.get();
+			Optional<Contact> contact = contactRepository.findByEmailAddress(sentMailEntity.getSentEmailAddress());
+			if(contact.isPresent()) {
+				Contact contactEntity = contact.get();
+				contactEntity.setElapsedTimeUntilClick(System.currentTimeMillis() - sentMailEntity.getSentTime());
+				contactRepository.save(contactEntity);
+			}else {
+				log.error("Sent mail found, but owner of the email address is not registered in system!");
+			}
+		} else {
+			log.error("Sent mail not found!");
+		}
+	}
+}
