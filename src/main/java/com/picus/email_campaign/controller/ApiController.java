@@ -59,6 +59,7 @@ public class ApiController {
 		return emailService.sendEmailToMultipleContacts(emailDTO);
 	}
 
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/click/{id}")
 	public void handleLinkClick(@PathVariable String id) {
 		emailService.handleLinkClick(id);

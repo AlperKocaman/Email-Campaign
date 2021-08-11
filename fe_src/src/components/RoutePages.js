@@ -5,6 +5,7 @@ import Contact from "./Contact"
 import Group from "./Group"
 import Campaign from "./Campaign"
 import Mail from "./Mail"
+import Click from "./Click";
 
 function RoutePages() {
     const NotFound = () => window.location.assign('/');
@@ -15,6 +16,7 @@ function RoutePages() {
             <Group path="/groups"/>
             <Campaign path="/campaigns"/>
             <Mail path="/sendmail"/>
+            <Click path="/click/:id"/>
             <NotFound default />
         </Router>
 
