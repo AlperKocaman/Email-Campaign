@@ -4,20 +4,14 @@ import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
 import React, {Component} from 'react';
-import classNames from 'classnames';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
 import ContactService from '../service/ContactService';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
-import { Toolbar } from 'primereact/toolbar';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { SelectButton } from 'primereact/selectbutton';
+import {Toast} from 'primereact/toast';
+import {FileUpload} from 'primereact/fileupload';
+import {Toolbar} from 'primereact/toolbar';
+import {InputText} from 'primereact/inputtext';
 import uuid from 'uuid-random';
-import {Dropdown} from "primereact/dropdown";
-import {MultiSelect} from "primereact/multiselect";
 
 
 export class Contact extends Component {
