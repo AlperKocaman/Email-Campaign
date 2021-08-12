@@ -8,6 +8,7 @@ import com.picus.email_campaign.mapper.SentMailMapper;
 import com.picus.email_campaign.repository.ContactRepository;
 import com.picus.email_campaign.repository.SentMailRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -60,7 +61,7 @@ public class EmailService {
 		message.setSubject(topic);
 
 		String customLink = String.format(customLinkBody, hashString);
-		message.setText(body + "\n" + customLink);
+		message.setText(Jsoup.parse(body).text() + "\n" + customLink);
 
 		mailSender.send(message);
 
