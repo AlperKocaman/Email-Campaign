@@ -24,6 +24,12 @@ export default class ContactService {
         return await this.requestToServer(url, method, {});
     }
 
+    async getEmailList() {
+        const url = "http://localhost:8080/api/emailList";
+        const method = 'GET';
+        return await this.requestToServer(url, method, {});
+    }
+
     async deleteContact(contact){
         const url="http://localhost:8080/api/users/"+contact.id;
         const method='DELETE';

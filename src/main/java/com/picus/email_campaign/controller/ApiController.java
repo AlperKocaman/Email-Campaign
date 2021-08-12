@@ -32,6 +32,11 @@ public class ApiController {
 		return contactService.getAllContacts();
 	}
 
+	@GetMapping("/emailList")
+	public List<String> getContactsEmailList() {
+		return contactService.getContactEmailList();
+	}
+
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/upload")
 	public ResponseEntity<String> uploadFile(MultipartFile file) {
@@ -53,6 +58,7 @@ public class ApiController {
 		return contactService.addContacts(contactList);
 	}
 
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/send")
 	public List<SentMailDTO> sendMail(@RequestBody EmailDTO emailDTO)
 			throws Exception {
