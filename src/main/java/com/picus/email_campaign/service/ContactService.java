@@ -84,4 +84,14 @@ public class ContactService {
 			return true;
 		}
 	}
+
+	public List<String> getContactEmailList() {
+		List<Contact> contactList = contactRepository.findAll();
+		List<String> emailList = new ArrayList<>();
+		for (Contact contact:contactList) {
+			emailList.add(contact.getEmailAddress());
+		}
+		log.info("Email address list retrieved: {}", emailList.toString());
+		return emailList;
+	}
 }
