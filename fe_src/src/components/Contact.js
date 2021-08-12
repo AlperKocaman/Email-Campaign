@@ -41,6 +41,7 @@ export class Contact extends Component {
         this.exportCSV = this.exportCSV.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
+        this.millistoMinutesAndSeconds = this.millistoMinutesAndSeconds.bind(this);
     }
 
     componentDidMount = async () => {
@@ -95,6 +96,18 @@ export class Contact extends Component {
         return <span className={`contact-badge status-${rowData.thisContactClickedTheLink ? 'true' : 'false'}`}>{rowData.thisContactClickedTheLink ? 'YES' : 'NO'}</span>;
     }
 
+    millistoMinutesAndSeconds(rowData) {
+        if(rowData.elapsedTimeUntilClick === 0) {
+            return "Contact haven't clicked yet.";
+        }
+        let seconds = Math.floor(rowData.elapsedTimeUntilClick / 1000);
+        let hours = Math.floor(seconds / 3600) ;
+        seconds -= hours * 3600;
+        let minutes = Math.floor(seconds / 60);
+        seconds -= minutes * 60;
+        return hours + " hours " + minutes + " minutes " + seconds + " seconds ";
+    }
+
     sendMailBodyTemplate(rowData) {
         return <span className={`contact-badge status-${rowData.mailSentToThisContact ? 'true' : 'false'}`}>{rowData.mailSentToThisContact ? 'YES' : 'NO'}</span>;
     }
@@ -124,13 +137,13 @@ export class Contact extends Component {
                                globalFilter={this.state.globalFilter}
                                header={header}>
 
-                        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                        <Column field="name" body={this.linkable} header="Name" sortable></Column>
+
+                        <Column field="name" header="Name" sortable></Column>
                         <Column field="surname" header="Surname" sortable></Column>
                         <Column field="emailAddress" header="E-mail Address" sortable></Column>
                         <Column field="isMailSentToThisContact" header="Mail Sending Status" body={this.sendMailBodyTemplate} sortable></Column>
                         <Column field="isThisContactClickedTheLink" header="Link Click Status" body={this.clickBodyTemplate} sortable></Column>
-                        <Column field="elapsedTimeUntilClick" header="Elapsed Time To Click" sortable></Column>
+                        <Column field="elapsedTimeUntilClick" header="Elapsed Time To Click" body={this.millistoMinutesAndSeconds} sortable></Column>
                     </DataTable>
                 </div>
             </div>
