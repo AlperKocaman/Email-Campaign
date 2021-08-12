@@ -34,7 +34,7 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	private String customLinkBody = "<a href=\"http://localhost:3000/click/%s\" target=\"_blank\">Click To See Campaign</a>";
+	private String customLinkBody = "http://localhost:3000/click/%s";
 
 	public List<SentMailDTO> sendEmailToMultipleContacts(EmailDTO emailDTO) {
 		List<SentMailDTO> sentMailDTOList = new ArrayList<>();
@@ -45,6 +45,9 @@ public class EmailService {
 	}
 
 	public SentMailDTO sendEmailToContact(String contactEmailAddress, String topic, String body) {
+		// TODO : divide this method into methods
+		// TODO : using contact service might be better
+
 		SimpleMailMessage message = new SimpleMailMessage();
 
 		SentMailDTO sentMailDTO = new SentMailDTO();
@@ -65,6 +68,16 @@ public class EmailService {
 		SentMail sentMail = sentMailMapper.toSentMailEntity(sentMailDTO);
 		SentMail sentMailEntity = sentMailRepository.save(sentMail);
 		log.info("Mail sent: {}", sentMailEntity.toString());
+
+		Optional<Contact> contact = contactRepository.findByEmailAddress(sentMailEntity.getSentEmailAddress());
+		if(contact.isPresent()) {
+			Contact contactEntity = contact.get();
+			contactEntity.setMailSentToThisContact(true);
+			contactRepository.save(contactEntity);
+		}else {
+			log.error("The recipient email address is not registered in system!");
+		}
+
 		return sentMailMapper.toSentMailDTO(sentMailEntity);
 	}
 
@@ -76,6 +89,7 @@ public class EmailService {
 			if(contact.isPresent()) {
 				Contact contactEntity = contact.get();
 				contactEntity.setElapsedTimeUntilClick(System.currentTimeMillis() - sentMailEntity.getSentTime());
+				contactEntity.setThisContactClickedTheLink(true);
 				contactRepository.save(contactEntity);
 			}else {
 				log.error("Sent mail found, but owner of the email address is not registered in system!");
