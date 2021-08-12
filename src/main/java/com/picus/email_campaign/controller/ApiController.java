@@ -1,11 +1,9 @@
 package com.picus.email_campaign.controller;
 
 
-import com.picus.email_campaign.dto.ContactDTO;
-import com.picus.email_campaign.dto.EmailDTO;
-import com.picus.email_campaign.dto.GroupDTO;
-import com.picus.email_campaign.dto.SentMailDTO;
+import com.picus.email_campaign.dto.*;
 import com.picus.email_campaign.entity.Contact;
+import com.picus.email_campaign.service.CampaignService;
 import com.picus.email_campaign.service.ContactService;
 import com.picus.email_campaign.service.EmailService;
 import com.picus.email_campaign.service.GroupService;
@@ -31,6 +29,7 @@ public class ApiController {
 	private final ContactService contactService;
 	private final EmailService emailService;
 	private final GroupService groupService;
+	private final CampaignService campaignService;
 
 	@GetMapping("/contacts")
 	public List<ContactDTO> getContactList() {
@@ -92,7 +91,7 @@ public class ApiController {
 
 	// Update
 	@PutMapping("/updateGroup/{id}")
-	public GroupDTO updateProblem(@PathVariable UUID id, @RequestBody GroupDTO groupDTO) throws Exception {
+	public GroupDTO updateGroup(@PathVariable UUID id, @RequestBody GroupDTO groupDTO) throws Exception {
 		return groupService.updateGroup(groupDTO);
 	}
 
@@ -100,5 +99,31 @@ public class ApiController {
 	@DeleteMapping("/deleteGroup/{id}")
 	public UUID deleteGroup(@PathVariable UUID id) throws Exception {
 		return groupService.deleteGroup(id);
+	}
+
+	// Campaign related APIs
+
+	// Create
+	@PostMapping("/addCampaign")
+	public CampaignDTO addCampaign(@RequestBody CampaignDTO campaign) throws Exception {
+		return campaignService.addCampaign(campaign);
+	}
+
+	// Read
+	@GetMapping("/getCampaigns")
+	public List<CampaignDTO> getCampaigns() {
+		return campaignService.getCampaigns();
+	}
+
+	// Update
+	@PutMapping("/updateCampaign/{id}")
+	public CampaignDTO updateCampaign(@PathVariable UUID id, @RequestBody CampaignDTO campaignDTO) throws Exception {
+		return campaignService.updateCampaign(campaignDTO);
+	}
+
+	// Delete
+	@DeleteMapping("/deleteCampaign/{id}")
+	public UUID deleteCampaign(@PathVariable UUID id) throws Exception {
+		return campaignService.deleteCampaign(id);
 	}
 }
