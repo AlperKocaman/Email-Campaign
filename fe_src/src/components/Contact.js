@@ -49,18 +49,6 @@ export class Contact extends Component {
         });
     }
 
-    findIndexById(id) {
-        let index = -1;
-        for (let i = 0; i < this.state.users.length; i++) {
-            if (this.state.users[i].id === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
-    }
-
     createId() {
         return uuid();
     }
