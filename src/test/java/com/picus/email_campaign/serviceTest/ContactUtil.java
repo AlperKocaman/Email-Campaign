@@ -1,10 +1,7 @@
 package com.picus.email_campaign.serviceTest;
 
-import com.picus.email_campaign.dto.ContactDTO;
 import com.picus.email_campaign.entity.Contact;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

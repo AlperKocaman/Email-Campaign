@@ -1,10 +1,7 @@
 package com.picus.email_campaign.serviceTest;
 
 import com.picus.email_campaign.EmailCampaignApplication;
-import com.picus.email_campaign.dto.CampaignDTO;
 import com.picus.email_campaign.dto.ContactDTO;
-import com.picus.email_campaign.dto.GroupDTO;
-import com.picus.email_campaign.entity.Campaign;
 import com.picus.email_campaign.entity.Contact;
 import com.picus.email_campaign.mapper.ContactMapper;
 import com.picus.email_campaign.repository.ContactRepository;
@@ -19,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.picus.email_campaign.serviceTest.ContactUtil.*;
 import static org.mockito.Mockito.*;
