@@ -2,7 +2,6 @@ package com.picus.email_campaign.service;
 
 import com.picus.email_campaign.dto.ContactDTO;
 import com.picus.email_campaign.entity.Contact;
-import com.picus.email_campaign.entity.Group;
 import com.picus.email_campaign.mapper.ContactMapper;
 import com.picus.email_campaign.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;

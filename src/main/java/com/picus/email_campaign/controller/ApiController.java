@@ -2,7 +2,6 @@ package com.picus.email_campaign.controller;
 
 
 import com.picus.email_campaign.dto.*;
-import com.picus.email_campaign.entity.Contact;
 import com.picus.email_campaign.service.CampaignService;
 import com.picus.email_campaign.service.ContactService;
 import com.picus.email_campaign.service.EmailService;
