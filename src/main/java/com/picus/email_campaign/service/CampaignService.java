@@ -1,8 +1,6 @@
 package com.picus.email_campaign.service;
 
 import com.picus.email_campaign.dto.CampaignDTO;
-import com.picus.email_campaign.dto.ContactDTO;
-import com.picus.email_campaign.dto.CampaignDTO;
 import com.picus.email_campaign.entity.Campaign;
 import com.picus.email_campaign.mapper.CampaignMapper;
 import com.picus.email_campaign.repository.CampaignRepository;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

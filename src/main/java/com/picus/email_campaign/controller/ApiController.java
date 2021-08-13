@@ -1,6 +1,5 @@
 package com.picus.email_campaign.controller;
 
-
 import com.picus.email_campaign.dto.*;
 import com.picus.email_campaign.service.CampaignService;
 import com.picus.email_campaign.service.ContactService;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @RestController
 @RequestMapping(value = "api")

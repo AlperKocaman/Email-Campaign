@@ -2,7 +2,6 @@ package com.picus.email_campaign.dto;
 
 import lombok.Data;
 
-import java.sql.Date;
 import java.util.UUID;
 
 @Data
