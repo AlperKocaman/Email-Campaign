@@ -11,7 +11,6 @@ import {Toast} from 'primereact/toast';
 import {FileUpload} from 'primereact/fileupload';
 import {Toolbar} from 'primereact/toolbar';
 import {InputText} from 'primereact/inputtext';
-import uuid from 'uuid-random';
 
 
 export class Contact extends Component {

@@ -68,7 +68,7 @@ export class Contact extends Component {
                     <Editor style={{height: '500px' }} value={this.state.body} onTextChange={(e) => this.setState({ body: e.htmlValue })} />
                 </div>
                 <div className="p-col-12 p-md-4">
-                    <Button label="Send" icon="pi pi-send" className="p-button-success p-mr-2" onClick={this.extractAndSendMail}/>
+                    <Button label="Send" icon="pi pi-send"  onClick={this.extractAndSendMail}/>
                 </div>
             </div>
         );
