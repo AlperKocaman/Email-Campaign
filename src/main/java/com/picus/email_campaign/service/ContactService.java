@@ -2,6 +2,7 @@ package com.picus.email_campaign.service;
 
 import com.picus.email_campaign.dto.ContactDTO;
 import com.picus.email_campaign.entity.Contact;
+import com.picus.email_campaign.entity.Group;
 import com.picus.email_campaign.mapper.ContactMapper;
 import com.picus.email_campaign.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -45,6 +48,36 @@ public class ContactService {
 		return contactMapper.toContactDTOList(contactList);
 	}
 
+	public ContactDTO getContact(UUID id) {
+		Optional<Contact> optionalContact = contactRepository.findById(id);
+		if(optionalContact.isPresent()){
+			Contact contactEntity =  optionalContact.get();
+			log.info("Contact retrieved: {}", contactEntity.toString());
+			return contactMapper.toContactDTO(contactEntity);
+		}
+		log.info("Contact with Id" + id + " not found");
+		return null;
+	}
+
+	public ContactDTO updateContact(ContactDTO contactDTO) throws Exception {
+		Contact origEntity = contactRepository.findById(contactDTO.getId()).orElseThrow(Exception::new);
+		contactMapper.updateContactEntity(contactDTO, origEntity);
+		contactRepository.save(origEntity);
+		log.info("Contact updated: {}", origEntity.toString());
+
+		return contactDTO;
+	}
+
+	public UUID deleteContact(UUID id) {
+		if (contactRepository.existsById(id)) {
+			contactRepository.deleteById(id);
+			log.info("Contact deleted: {}", id.toString());
+		} else {
+			throw new NullPointerException("Contact with id " + id + " not found!");
+		}
+		return id;
+	}
+
 	public void extractContactListFromFile(MultipartFile uploadedFile) throws IOException {
 		InputStream initialStream = uploadedFile.getInputStream();
 		byte[] buffer = new byte[initialStream.available()];
@@ -56,6 +89,7 @@ public class ContactService {
 		String[] contacts = contactListFromFile.split(System.getProperty("line.separator"));
 		List<ContactDTO> contactDTOList = new ArrayList<>();
 		for(String contact:contacts){
+			// TODO : lots of string operations here, change it!
 			String[] contactDetails = contact.split("<");
 			int i = contactDetails[0].substring(0, contactDetails[0].length()-1).lastIndexOf(" ");
 			String[] nameAndSurnameOfContact =  {contactDetails[0].substring(0, i), contactDetails[0].substring(i)};

@@ -31,14 +31,18 @@ public class ApiController {
 	private final GroupService groupService;
 	private final CampaignService campaignService;
 
-	@GetMapping("/contacts")
-	public List<ContactDTO> getContactList() {
-		return contactService.getAllContacts();
+	// Contact related APIs
+
+	// Create
+
+	@PostMapping("/addContact")
+	public ContactDTO addContact(@RequestBody ContactDTO contact) throws Exception {
+		return contactService.addContact(contact);
 	}
 
-	@GetMapping("/emailList")
-	public List<String> getContactsEmailList() {
-		return contactService.getContactEmailList();
+	@PostMapping("/addContacts")
+	public List<ContactDTO> addContacts(@RequestBody List<ContactDTO> contactList) throws Exception {
+		return contactService.addContacts(contactList);
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -52,14 +56,37 @@ public class ApiController {
 		}
 	}
 
-	@PostMapping("/addContact")
-	public ContactDTO addContact(@RequestBody ContactDTO contact) throws Exception {
-		return contactService.addContact(contact);
+	// Read
+
+	@GetMapping("/contacts")
+	public List<ContactDTO> getContactList() {
+		return contactService.getAllContacts();
 	}
 
-	@PostMapping("/addContacts")
-	public List<ContactDTO> addContacts(@RequestBody List<ContactDTO> contactList) throws Exception {
-		return contactService.addContacts(contactList);
+	@GetMapping("/getContact/{id}")
+	public ContactDTO getContact(@PathVariable UUID id) {
+		return contactService.getContact(id);
+	}
+
+	// Update
+
+	@PutMapping("/updateContact/{id}")
+	public ContactDTO updateContact(@PathVariable UUID id, @RequestBody ContactDTO contactDTO) throws Exception {
+		return contactService.updateContact(contactDTO);
+	}
+
+	// Delete
+
+	@DeleteMapping("/deleteContact/{id}")
+	public UUID deleteContact(@PathVariable UUID id) throws Exception {
+		return contactService.deleteContact(id);
+	}
+
+	// Email related APIs
+
+	@GetMapping("/emailList")
+	public List<String> getContactsEmailList() {
+		return contactService.getContactEmailList();
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
