@@ -111,7 +111,7 @@ public class ContactService {
 
 	public boolean checkEmailAddressIsUnique(String emailAddress) throws Exception {
 		if(contactRepository.existsByEmailAddress(emailAddress)){
-			throw new Exception();
+			throw new Exception("Email address is already used!");
 		}
 		else {
 			return true;
