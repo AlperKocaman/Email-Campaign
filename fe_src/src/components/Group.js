@@ -4,12 +4,6 @@ import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
 import React, {Component} from 'react';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import ContactService from '../service/ContactService';
-import {Toast} from 'primereact/toast';
-import {FileUpload} from 'primereact/fileupload';
-import {Toolbar} from 'primereact/toolbar';
 import {InputText} from 'primereact/inputtext';
 import GroupService from "../service/GroupService";
 
