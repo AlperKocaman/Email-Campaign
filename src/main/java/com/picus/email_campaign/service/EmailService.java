@@ -10,6 +10,7 @@ import com.picus.email_campaign.repository.SentMailRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,9 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
+	@Value("${spring.mail.username}")
+	private String fromEmailAddress;
+
 	private String customLinkBody = "http://localhost:3000/click/%s";
 
 	public List<SentMailDTO> sendEmailToMultipleContacts(EmailDTO emailDTO) {
@@ -56,7 +60,7 @@ public class EmailService {
 		String hashString = UUID.randomUUID().toString();
 		sentMailDTO.setHashString(hashString);
 
-		message.setFrom("alper269707@gmail.com");
+		message.setFrom(fromEmailAddress);
 		message.setTo(contactEmailAddress);
 		message.setSubject(topic);
 
