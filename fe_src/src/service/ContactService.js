@@ -31,7 +31,7 @@ export default class ContactService {
     }
 
     async deleteContact(contact){
-        const url="http://localhost:8080/api/users/"+contact.id;
+        const url="http://localhost:8080/api/deleteContact/"+contact.id;
         const method='DELETE';
         return await this.requestToServer(url, method, {});
     }

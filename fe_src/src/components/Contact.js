@@ -39,7 +39,6 @@ export class Contact extends Component {
         this.sendMailBodyTemplate = this.sendMailBodyTemplate.bind(this);
         this.clickBodyTemplate = this.clickBodyTemplate.bind(this);
         this.exportCSV = this.exportCSV.bind(this);
-        this.onInputChange = this.onInputChange.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
         this.millistoMinutesAndSeconds = this.millistoMinutesAndSeconds.bind(this);
     }
@@ -50,32 +49,8 @@ export class Contact extends Component {
         });
     }
 
-    createId() {
-        return uuid();
-    }
-
     exportCSV() {
         this.dt.exportCSV();
-    }
-
-
-    onInputChange(e, name) {
-        let val = (e.target && e.target.value) || '';
-        if(val === 'false'){
-            val = false;
-            this.setState({isAdmin: 'false'} );
-        }else if(val === 'true'){
-            val = true;
-            this.setState({isAdmin: 'true'} );
-        }
-        let user = {...this.state.user};
-        user[`${name}`] = val;
-        if (val === '' || val === null || val === undefined || val === NaN) {
-            this.setState({ hasInvalidInput: true })
-        }else {
-            this.setState({hasInvalidInput: false});
-        }
-        this.setState({ user });
     }
 
     leftToolbarTemplate() {
